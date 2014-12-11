@@ -7,8 +7,8 @@ component name="QRConfig"
 	Variables.charset = "UTF-8";
 	Variables.MatrixToImageConfigClass = createObject("java","com.google.zxing.client.j2se.MatrixToImageConfig"); 
 	variables.EncodeHintTypeClass = createObject("java","com.google.zxing.EncodeHintType");
-	Variables.PixelOnColor = MatrixToImageConfigClass.BLACK;
-	Variables.PixelOffColor = MatrixToImageConfigClass.WHITE;
+	Variables.ForegroundColor = MatrixToImageConfigClass.BLACK;
+	Variables.BackgroundColor = MatrixToImageConfigClass.WHITE;
 	Variables.EncodingHits = createObject("java","java.util.HashMap").init();
 	
 	public QRConfig function init()
@@ -53,29 +53,29 @@ component name="QRConfig"
 		Variables.EncodingHits.put(EncodeHintTypeClass.CHARACTER_SET, Variables.charset);
 	}
 	
-	public void function setImagePixelOnColor(required numeric onColor)
+	public void function setForegroundColor(required numeric onColor)
 	{
-		Variables.PixelOnColor = onColor;
+		Variables.ForegroundColor = onColor;
 	}
 	
-	public numeric function getImagePixelOnColor()
+	public numeric function getForegroundColor()
 	{
-		return Variables.PixelOnColor;
+		return Variables.ForegroundColor;
 	}
 	
-	public numeric function getImagePixelOffColor()
+	public numeric function getBackgroundColor()
 	{
-		return Variables.PixelOffColor;
+		return Variables.BackgroundColor;
 	}
 	
-	public void function setImagePixelOffColor(required numeric offColor)
+	public void function setBackgroundColor(required numeric offColor)
 	{
-		Variables.PixelOffColor = offColor;
+		Variables.BackgroundColor = offColor;
 	}
 	
 	package any function getMatrixToImageConfig()
 	{
-		return Variables.MatrixToImageConfigClass.init(Variables.PixelOnColor, Variables.PixelOffColor);
+		return Variables.MatrixToImageConfigClass.init(Variables.ForegroundColor, Variables.BackgroundColor);
 	}
 	
 	package any function getBarCodeFormat()
