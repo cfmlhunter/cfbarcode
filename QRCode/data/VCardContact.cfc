@@ -1,4 +1,4 @@
-component displayName="Contact"
+component displayName="vCard 3.0 Contact" implements="QRObject"   
 {
 	Variables.Company = "";
 	Variables.Title = "";
@@ -7,7 +7,7 @@ component displayName="Contact"
 	Variables.Address = "";
 	Variables.Website = "";
 	Variables.Memo = "";
-	Variables.Encoding = "vCard";
+	Variables.Prefix = "BEGIN:VCARD";
 	
 	public Contact function init(required String contactName)
 	{
@@ -94,23 +94,10 @@ component displayName="Contact"
 	{
 		variables.memo = memo;
 	}
-	
-	public String function setEncoding(String encoding)
-	{
-		if(encoding eq "mecard" || encoding eq "vcard")
-		 	Variables.Encoding = encoding;
-	}
-	
+
 	public String function toString()
 	{
-		if(Variables.Encoding eq "mecard")
-			return getMeCardString();
-		return getVCardString();
-	}
-	
-	private String function getVCardString()
-	{
-		var QRString  = "BEGIN:VCARD#Chr(10)#VERSION:3.0#chr(10)#N:#Variables.contactName##chr(10)#";
+		var QRString  = "#variables.Prefix##Chr(10)#VERSION:3.0#chr(10)#N:#Variables.contactName##chr(10)#";
 		if(Len(Variables.company))
 			QRString &= "ORG:#Variables.company##chr(10)#";
 		if(Len(Variables.title))
@@ -128,26 +115,14 @@ component displayName="Contact"
 		QRString &= "END:VCARD";
 		return QRString;
 	}
-	
-	private String function getMeCardString()
+
+	public string function getType()
 	{
-		//FIX what if values contains ;
-		var QRString = "MECARD:N:#Variables.contactName#";
-		if(Len(Variables.company))
-			QRString &= ";ORG:#Variables.company#";
-		if(Len(Variables.title))
-			QRString &= ";TITLE:#Variables.title#";
-		if(Len(Variables.phone))
-			QRString &= ";TEL:#Variables.phone#";
-		if(Len(Variables.website))
-			QRString &= ";URL:#Variables.website#";	
-		if(Len(Variables.Email))
-			QRString &= ";EMAIL:#Variables.Email#";
-		if(Len(Variables.Address))
-			QRString &= ";ADR:#Variables.Address#";	
-		if(Len(Variables.Memo))
-			QRString &= ";NOTE:#Variables.Memo#";
-		QRString &= ";;";
-		return QRstring;
+		return "CONTACT";
 	}
+	
+	public string function getPrefix()
+	{
+		return Variables.Prefix;
+	}	
 }

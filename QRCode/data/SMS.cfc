@@ -1,8 +1,9 @@
-component name="SMS"
+component name="SMS" implements="QRObject"   
 {
 	// http://goqr.me/qr-codes/type-qr-sms.html
 	Variables.message = "";
 	Variables.phoneNumber = "";
+	Variables.Prefix = "SMSTO:";
 	
 	public String function getPhoneNumber()
 	{
@@ -16,7 +17,7 @@ component name="SMS"
 	
 	public void function setPhoneNumber(required String phoneNumber)
 	{
-		phoneNumber = phoneNumber.replaceAll(" ","");
+		phoneNumber = phoneNumber.replaceAll(" ","").replaceAll("-","");
 		var num = phoneNumber;
 		if(phoneNumber.startsWith("+"))
 			num = phoneNumber.subString(1);
@@ -31,13 +32,17 @@ component name="SMS"
 		Variables.message = message;
 	}
 	
+	public string function getPrefix()
+	{
+		return Variables.Prefix;
+	}
+	
 	public String function toString()
 	{
 		if(NOT Len(Variables.message) && NOT Len(Variables.phoneNumber))
-	        Throw(type="InvalidData",message="SMS is not valid");
-
+	        Throw(type="InvalidData",message="SMS/MMS is not valid");
 		
-		var qrString = "SMSTO:";
+		var qrString = getprefix() & ":";
 		if(Len(variables.phoneNumber))
 			qrString &= variables.phoneNumber;
 		

@@ -1,4 +1,4 @@
-component displayname="Geo Location"
+component displayname="Geo Location" implements="QRObject"   
 {
 	Variables.searchQuery = "";
 
@@ -43,10 +43,19 @@ component displayname="Geo Location"
 	
 	public String function toString()
 	{
-		var QRString = "geo:#Variables.Latitude#,#Variables.Longitude#";
+		var QRString = getprefix() & "#Variables.Latitude#,#Variables.Longitude#";
 		if(Len(Variables.searchQuery))
 			QRString &= "?q=#Variables.searchQuery#";
 		return QRString;
 	}
 	
+	public string function getPrefix()
+	{
+		return "geo:";
+	}
+	
+	public string function getType()
+	{
+		return "geo";
+	}	
 }

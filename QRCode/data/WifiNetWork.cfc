@@ -1,4 +1,4 @@
-component name="WifiNetWork"
+component name="WifiNetWork" implements="QRObject"   
 {
 	//http://daniel-baumann.ch/other/qr-codes/wifi/
 	Variables.Password = "";
@@ -87,7 +87,7 @@ component name="WifiNetWork"
 	
 	public String function toString()
 	{
-		var QRString = "WIFI:S:#Variables.SSID#";
+		var QRString = getprefix() & "S:#Variables.SSID#";
 		if(Len(Variables.AuthScheme) && NOT isNoEncryption(Variables.AuthScheme))
 			QRString &= ";T:#Variables.AuthScheme#";
 		
@@ -101,5 +101,13 @@ component name="WifiNetWork"
 		return QRString;
 	}
 	
+	public string function getType()
+	{
+		return "WIFI";
+	}
 	
+	public string function getPrefix()
+	{
+		return "WIFI:";
+	}	
 }
