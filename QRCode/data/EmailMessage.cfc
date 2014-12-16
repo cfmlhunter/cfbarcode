@@ -1,8 +1,8 @@
 component  name="EmailMessage" implements="QRObject"     
 {
-	Variables.tos = "";
-	Variables.ccs = "";
-	Variables.bccs = "";
+	Variables.tos = arrayNew(1);
+	Variables.ccs = arrayNew(1);
+	Variables.bccs = arrayNew(1);
 	Variables.subject = "";
 	Variables.body = "";
 	Variables.Prefix = "MAILTO:";
@@ -110,23 +110,7 @@ component  name="EmailMessage" implements="QRObject"
 	
 	public string function toMATMSGString()
 	{
-		var qrString = "MATMSG:";
-		if(arraylen(Variables.tos))
-			qrString &= "TO:"& arraytolist(Variables.tos);
 		
-		if(arraylen(Variables.ccs))
-			qrString &= ";CC:" & arraytoList(Variables.ccs);
-		
-		if(arraylen(Variables.bccs))
-			qrString &= ";BCC:" & arraytolist(Variables.bccs);
-		
-		if(Len(Variables.subject))
-			qrString &= ";SUB:" & #Variables.subject#;
-				
-		if(len(Variables.body))
-			qrString &= ";BODY:" & Variables.body;
-		
-		return qrstring & ";;";
 	}
 	
 	public string function getPrefix()

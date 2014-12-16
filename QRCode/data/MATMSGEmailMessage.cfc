@@ -1,4 +1,4 @@
-component  extends="W3CEmailMessage"
+component  extends="EmailMessage"
 {
 	Variables.Prefix = "MATMSG:";
 	public string function toString()

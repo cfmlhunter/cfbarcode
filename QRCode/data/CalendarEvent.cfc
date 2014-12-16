@@ -4,7 +4,6 @@ component name="CalendarEvent" displayname="Calendar Event"
 	Variables.DateEnd = "";
 	Variables.location  = "";
 	Variables.description = "";
-	Variables.AllDayEvent = false;
 	
 	public CalendarEvent function init(required String eventName)
 	{
@@ -63,35 +62,24 @@ component name="CalendarEvent" displayname="Calendar Event"
 		return Variables.AllDayEvent;
 	}
 	
-	public void function setAllDayEvent(required boolean allDay)
-	{
-		Variables.AllDayEvent = allDay;		
-	}
-	
 	public string function toString()
 	{
-		var qrString = getprefix() &  "#chr(10)#SUMMARY:#Variables.eventTitle##chr(10)#";
+		var qrString = getprefix() &  chr(10) & "SUMMARY:" & Variables.eventTitle & chr(10);
 		if(Len(Variables.DateStart))
-		{			
-			if(Variables.AllDayEvent)
-				qrString &= "DTSTART;VALUE=DATE:#year(Variables.DateStart)##month(Variables.DateStart)##day(Variables.DateStart)##chr(10)#";
-			else
-				qrString &= "DTSTART:";
-		}
-		
+			qrString &= "DTSTART:" & getdate(Variables.DateStart) & chr(10);		
 		if(Len(Variables.DateEnd))
-			qrString &= "DTEND:#Variables.DateStart#Z#chr(10)#";	
+			qrString &= "DTEND:" & getdate(Variables.DateEnd) & chr(10);	
 		if(Len(Variables.location))
-			qrString &= "LOCATION:#Variables.location##chr(10)#";
+			qrString &= "LOCATION:" & Variables.location & chr(10);
 		if(Len(variables.description))
-			qrString &= "DESCRIPTION:#variables.description##chr(10)#";
+			qrString &= "DESCRIPTION:"& variables.description  &chr(10);
 		qrString &= "END:VEVENT";
 		return qrstring;
 	}
 	
 	private string function getDate(required date inputdate)
 	{
-		
+		return year(inputdate) & month(inputdate) & day(inputdate) & "T" & hour(inputdate) & minute(inputdate) & second(inputdate) & "Z";
 	}	
 	
 	public string function getType()

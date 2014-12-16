@@ -124,5 +124,20 @@ component displayName="vCard 3.0 Contact" implements="QRObject"
 	public string function getPrefix()
 	{
 		return Variables.Prefix;
+	}
+	
+	public struct function getDisplayResult()
+	{
+		var map = structnew();
+		map["Name"] = getcontactName();
+		map["Company"] = getCompany();
+		map["Title"] = gettitle();
+		map["Telephone"] = getPhone();
+		map["Website"] = getWebSite();
+		map["Email"] = getEmail();
+		map["Address"] = getAddress();
+		map["Memo"] = getMemo();
+		map["Type"] = getType();
+		return map;
 	}	
 }

@@ -1,4 +1,4 @@
-component  extends="VCardContact" displayname="Mecard format Contact" 
+component  extends="Contact" displayname="Mecard format Contact" 
 {
 	Variables.Prefix = "MECARD:";
 	

@@ -4,11 +4,11 @@ component name="WifiNetWork" implements="QRObject"
 	Variables.Password = "";
 	Variables.AuthScheme = "WEP";
 	Variables.AuthSchemeValues = "WEP,WPA,WPA2,NOPASS";
-	Variables.Visible = false;
+	Variables.hidden = false;
 	
 	public WifiNetWork function init(required String SSID)
 	{
-		Variables.SSID = escape(SSID);
+		Variables.SSID = SSID;
 		return this;
 	}
 	
@@ -22,9 +22,9 @@ component name="WifiNetWork" implements="QRObject"
 		return Variables.AuthScheme;
 	}
 	
-	public boolean function isVisible()
+	public boolean function isHidden()
 	{
-		return Variables.Visible;
+		return Variables.hidden;
 	}
 	
 	public String function getSSID()
@@ -34,8 +34,8 @@ component name="WifiNetWork" implements="QRObject"
 	
 	public void function setWifiPassword(String wifiPassword)
 	{
-		if(authscheme NEQ "NOPASS")
-			Variables.Password = escape(wifiPassword);
+		if(authscheme != "NOPASS")
+			Variables.Password = wifiPassword;
 	}
 	
 	public void function setAuthScheme(required String authScheme)
@@ -50,9 +50,9 @@ component name="WifiNetWork" implements="QRObject"
 		}
 	}
 	
-	public void function setVisible(boolean visible)
+	public void function setHidden(boolean hidden)
 	{
-		Variables.visible = visible;
+		Variables.hidden = hidden;
 	}
 	
 	private boolean function isNoEncryption(string scheme)
@@ -87,14 +87,14 @@ component name="WifiNetWork" implements="QRObject"
 	
 	public String function toString()
 	{
-		var QRString = getprefix() & "S:#Variables.SSID#";
-		if(Len(Variables.AuthScheme) && NOT isNoEncryption(Variables.AuthScheme))
+		var QRString = getprefix() & "S:" & escape(Variables.SSID);
+		if(Len(Variables.AuthScheme) && !isNoEncryption(Variables.AuthScheme))
 			QRString &= ";T:#Variables.AuthScheme#";
 		
 		if(Len(Variables.Password))
-			QRString &= ";P:#Variables.Password#";
+			QRString &= ";P:" & escape(Variables.Password);
 
-		if(Variables.Visible)
+		if(Variables.hidden)
 			QRString &= ";H:#variables.visible#";
 			
 		QRString &= ";;";
@@ -109,5 +109,16 @@ component name="WifiNetWork" implements="QRObject"
 	public string function getPrefix()
 	{
 		return "WIFI:";
+	}
+	
+	public struct function getDisplayResult()
+	{
+		var map = structnew();
+		map["SSID"] = getSSID();
+		map["Encryption"] = getWifiAuthScheme();
+		map["Password"] = getWifiPassword();
+		map["Hidden"] = ishidden();
+		map["Type"] = gettype();
+		return map;
 	}	
 }
